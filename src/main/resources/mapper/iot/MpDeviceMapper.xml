@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinetech.aihall.modules.iot.mapper.MpDeviceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.shinetech.aihall.modules.iot.model.MpDevice">
+        <id column="id" property="id" />
+        <result column="terminal_id" property="terminalId" />
+        <result column="terminal_address" property="terminalAddress" />
+        <result column="address" property="address" />
+        <result column="shortcut" property="shortcut" />
+        <result column="role" property="role" />
+        <result column="protocol" property="protocol" />
+        <result column="status" property="status" />
+        <result column="parent" property="parent" />
+        <result column="level" property="level" />
+        <result column="line1" property="line1" />
+        <result column="line2" property="line2" />
+        <result column="line3" property="line3" />
+        <result column="location" property="location" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="last_courts" property="lastCourts" />
+        <result column="distance" property="distance" />
+        <result column="created_time" property="createdTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+</mapper>
