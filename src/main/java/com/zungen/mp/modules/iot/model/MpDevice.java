@@ -33,7 +33,7 @@ public class MpDevice implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "台区终端ID")
-    private String terminalId;
+    private Long terminalId;
 
     @ApiModelProperty(value = "台区终端地址")
     private String terminalAddress;

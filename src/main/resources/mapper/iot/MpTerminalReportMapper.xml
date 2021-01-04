@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.zungen.mp.modules.iot.model.MpTerminalReport">
         <id column="id" property="id" />
         <result column="terminal_id" property="terminalId" />
+        <result column="terminal_address" property="terminalAddress" />
         <result column="energy_sale" property="energySale" />
         <result column="energy_supply" property="energySupply" />
         <result column="energy_lost" property="energyLost" />
@@ -19,4 +20,20 @@
         <result column="created_time" property="createdTime" />
     </resultMap>
 
+    <insert id="insertReport" useGeneratedKeys="true" keyProperty="id" parameterType="com.zungen.mp.modules.iot.model.MpTerminalReport">
+        INSERT INTO mp_terminal_report VALUES(null,
+                                            #{terminalId},
+                                            #{terminalAddress},
+                                            #{energySale},
+                                            #{energySupply},
+                                            #{energyLost},
+                                            #{lineLost},
+                                            #{eventPowerLost},
+                                            #{eventLoadBalance},
+                                            #{eventLineLost},
+                                            #{eventOverLoad},
+                                            #{eventQuality},
+                                            #{eventMeter},
+                                            #{createdTime})
+    </insert>
 </mapper>

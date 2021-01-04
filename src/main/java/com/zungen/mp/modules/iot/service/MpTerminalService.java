@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MpTerminalService extends IService<MpTerminal> {
     boolean saveTerminal(MpTerminal mpTerminal);
+
+    MpTerminal findByAddress(String terminalId);
 }

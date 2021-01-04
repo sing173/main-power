@@ -27,9 +27,7 @@ public class MpTerminalServiceImpl extends ServiceImpl<MpTerminalMapper, MpTermi
      */
     @Override
     public boolean saveTerminal(MpTerminal mpTerminal) {
-        QueryWrapper<MpTerminal> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(MpTerminal::getAddress, mpTerminal.getAddress());
-        MpTerminal dbTerminal = baseMapper.selectOne(wrapper);
+        MpTerminal dbTerminal = findByAddress(mpTerminal.getAddress());
 
         if(dbTerminal == null) {
             //新建台区终端
@@ -45,6 +43,13 @@ public class MpTerminalServiceImpl extends ServiceImpl<MpTerminalMapper, MpTermi
             dbTerminal.setUpdateTime(new Date());
             return updateById(dbTerminal);
         }
+    }
+
+    @Override
+    public MpTerminal findByAddress(String address) {
+        QueryWrapper<MpTerminal> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(MpTerminal::getAddress, address);
+        return baseMapper.selectOne(wrapper);
     }
 
 }

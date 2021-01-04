@@ -30,7 +30,8 @@ public class MpDeviceEventServiceImpl extends ServiceImpl<MpDeviceEventMapper, M
     }
 
     @Override
-    public boolean batchCreateDeviceEvent(List<MpDeviceEvent> mpDeviceEventList) {
+    public boolean batchCreateDeviceEvent(List<MpDeviceEvent> mpDeviceEventList, Long reportId) {
+        mpDeviceEventList.forEach(mpDeviceEvent -> mpDeviceEvent.setTerminalReportId(reportId));
 
         return saveBatch(mpDeviceEventList);
     }
@@ -42,7 +43,10 @@ public class MpDeviceEventServiceImpl extends ServiceImpl<MpDeviceEventMapper, M
      * @return
      */
     @Override
-    public List<MpDeviceEvent> map2MpDeviceEventByEventType(List<? extends MpEvent> mpEventList, Long terminalId) {
+    public List<MpDeviceEvent> map2MpDeviceEventByEventType(
+            List<? extends MpEvent> mpEventList,
+            Long terminalId,
+            String terminalAddress) {
         return mpEventList.stream().map(mpEvent -> {
             MpDeviceEvent mpDeviceEvent = new MpDeviceEvent();
             mpDeviceEvent.setAddress(mpEvent.getAddress());

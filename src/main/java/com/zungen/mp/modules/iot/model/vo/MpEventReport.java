@@ -21,6 +21,9 @@ public class MpEventReport implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @ApiModelProperty(value = "台区终端地址")
+    private String address;
+
     @ApiModelProperty(value = "台区售电量")
     private Double energySale;
 

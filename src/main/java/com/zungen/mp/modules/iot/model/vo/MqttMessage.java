@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * mqtt自定义消息
+ * @author luomingxing
  * @param <T> 对应各接口模型
  */
 @Data
@@ -21,12 +22,12 @@ public class MqttMessage<T> {
      * 标记“body是否被压缩及压缩算法，后期扩展使用
      * 0：表示body未压缩
      */
-    private int compress;
+    private int compress = 0;
     /**
      * 标记“body是否被加密及加密算法，后期扩展使用
      * 0：表示body未加密
      */
-    private int encryption;
+    private int encryption = 0;
     /**
      * 消息体，JSON 格式字符串，可选。可被压缩及加密。
      * 加密和压缩顺序为：先加密，后压缩

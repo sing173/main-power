@@ -30,8 +30,11 @@ public class MpTerminalReport implements Serializable {
     @ApiModelProperty(value = "ID")
     private Long id;
 
-    @ApiModelProperty(value = "台区ID")
+    @ApiModelProperty(value = "台区终端Id")
     private Long terminalId;
+
+    @ApiModelProperty(value = "台区终端地址")
+    private String terminalAddress;
 
     @ApiModelProperty(value = "台区售电量")
     private Double energySale;

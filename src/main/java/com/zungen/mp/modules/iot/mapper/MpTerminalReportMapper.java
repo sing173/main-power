@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-12-31
  */
 public interface MpTerminalReportMapper extends BaseMapper<MpTerminalReport> {
-
+    int insertReport(MpTerminalReport mpTerminalReport);
 }

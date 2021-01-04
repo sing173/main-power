@@ -17,7 +17,10 @@ import java.util.List;
 public interface MpDeviceEventService extends IService<MpDeviceEvent> {
     boolean createDeviceEvent(MpDeviceEvent mpDeviceEvent);
 
-    boolean batchCreateDeviceEvent(List<MpDeviceEvent> mpDeviceEventList);
+    boolean batchCreateDeviceEvent(List<MpDeviceEvent> mpDeviceEventList, Long reportId);
 
-    List<MpDeviceEvent> map2MpDeviceEventByEventType(List<? extends MpEvent> mpEventList, Long terminalId);
+    List<MpDeviceEvent> map2MpDeviceEventByEventType(
+            List<? extends MpEvent> mpEventList,
+            Long terminalId, String terminalAddress
+            );
 }
