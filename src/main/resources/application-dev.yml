@@ -33,4 +33,4 @@ spring:
 logging:
   level:
     root: info
-    com.shinetech.aihall: debug
+    com.mp.zungen: debug
