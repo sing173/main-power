@@ -25,16 +25,16 @@ public class MpEventReport implements Serializable {
     private String address;
 
     @ApiModelProperty(value = "台区售电量")
-    private Double energySale;
+    private double energySale;
 
     @ApiModelProperty(value = "台区供电量")
-    private Double energySupply;
+    private double energySupply;
 
     @ApiModelProperty(value = "台区线损电量")
-    private Double energyLost;
+    private double energyLost;
 
     @ApiModelProperty(value = "台区线损值 XX%")
-    private Double lineLost;
+    private double lineLost;
 
     @ApiModelProperty(value = "停电事件")
     private List<MpEventPowerLost> eventPowerLost;

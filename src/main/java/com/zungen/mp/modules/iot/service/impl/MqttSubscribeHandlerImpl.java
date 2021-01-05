@@ -1,7 +1,8 @@
 package com.zungen.mp.modules.iot.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.zungen.mp.modules.iot.model.MpDevice;
@@ -18,9 +19,7 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 处理 台区智能终端发送的主题事件
@@ -81,9 +80,18 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
                 new TypeReference<MqttMessage<MpTerminal>>() {});
         MpTerminal mpTerminal = terminalMqttMessage.getBody();
 
-        terminalService.saveTerminal(mpTerminal);
+        if(terminalService.saveTerminal(mpTerminal)) {
 
-        //TODO 发布主题请求获取该终端的拓扑数据
+            //发布主题请求获取该终端的拓扑数据
+            Map<String, Object> data = new HashMap<>();
+            data.put("timeTag", DateUtil.now());
+
+            mqttGateway.sendToMqtt(JSONObject.toJSONString(MqttMessage.getDefaultMessage(data)),
+                    StrUtil.format(MqttGateway.MQTT_TOPIC_PUB_TOPOLOGY, mpTerminal.getDeviceId()));
+        }else {
+//            logger.error("没有找到对应的台区终端");
+            System.out.println("保存台区终端失败");
+        }
     }
 
     /**
@@ -108,7 +116,9 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
                     deviceService.saveDevice(mpDevice);
                 });
 
-                //TODO 发布主题请求获取该终端的分析报告
+                //发布主题请求获取该终端的分析报告
+                mqttGateway.sendToMqtt(JSONObject.toJSONString(MqttMessage.getDefaultMessage(new HashMap<>())),
+                        StrUtil.format(MqttGateway.MQTT_TOPIC_PUB_REPORT, mpTerminal.getDeviceId()));
             }
 
         } else {
@@ -134,7 +144,10 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
         if(mpTerminal != null) {
             //1.先保存台区报告
             MpTerminalReport mpTerminalReport = new MpTerminalReport();
-            BeanUtil.copyProperties(mpEventReport, mpTerminalReport);
+            mpTerminalReport.setEnergyLost(mpEventReport.getEnergyLost());
+            mpTerminalReport.setEnergySupply(mpEventReport.getEnergySupply());
+            mpTerminalReport.setEnergySale(mpEventReport.getEnergySale());
+            mpTerminalReport.setLineLost(mpEventReport.getLineLost());
             mpTerminalReport.setTerminalId(mpTerminal.getId());
             mpTerminalReport.setTerminalAddress(mpTerminal.getAddress());
             mpTerminalReport.setCreatedTime(new Date());
@@ -148,31 +161,31 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
             }
             //线损事件
             if (CollectionUtil.isNotEmpty(mpEventReport.getEventLineLost())) {
-                mpTerminalReport.setEventMeter(mpEventReport.getEventLineLost().size());
+                mpTerminalReport.setEventLineLost(mpEventReport.getEventLineLost().size());
                 deviceEventList.addAll(deviceEventService.
                         map2MpDeviceEventByEventType(mpEventReport.getEventLineLost(), mpTerminal.getId(), mpTerminal.getAddress()));
             }
             //供电质量
             if (CollectionUtil.isNotEmpty(mpEventReport.getEventQuality())) {
-                mpTerminalReport.setEventMeter(mpEventReport.getEventQuality().size());
+                mpTerminalReport.setEventQuality(mpEventReport.getEventQuality().size());
                 deviceEventList.addAll(deviceEventService.
                         map2MpDeviceEventByEventType(mpEventReport.getEventQuality(), mpTerminal.getId(), mpTerminal.getAddress()));
             }
             //三相不平衡
             if (CollectionUtil.isNotEmpty(mpEventReport.getEventLoadBalance())) {
-                mpTerminalReport.setEventMeter(mpEventReport.getEventLoadBalance().size());
+                mpTerminalReport.setEventLoadBalance(mpEventReport.getEventLoadBalance().size());
                 deviceEventList.addAll(deviceEventService.
                         map2MpDeviceEventByEventType(mpEventReport.getEventLoadBalance(), mpTerminal.getId(), mpTerminal.getAddress()));
             }
             //停电事件
             if (CollectionUtil.isNotEmpty(mpEventReport.getEventPowerLost())) {
-                mpTerminalReport.setEventMeter(mpEventReport.getEventPowerLost().size());
+                mpTerminalReport.setEventPowerLost(mpEventReport.getEventPowerLost().size());
                 deviceEventList.addAll(deviceEventService.
                         map2MpDeviceEventByEventType(mpEventReport.getEventPowerLost(), mpTerminal.getId(), mpTerminal.getAddress()));
             }
             //负荷超限事件
             if (CollectionUtil.isNotEmpty(mpEventReport.getEventOverLoad())) {
-                mpTerminalReport.setEventMeter(mpEventReport.getEventOverLoad().size());
+                mpTerminalReport.setEventOverLoad(mpEventReport.getEventOverLoad().size());
                 deviceEventList.addAll(deviceEventService.
                         map2MpDeviceEventByEventType(mpEventReport.getEventOverLoad(), mpTerminal.getId(), mpTerminal.getAddress()));
             }

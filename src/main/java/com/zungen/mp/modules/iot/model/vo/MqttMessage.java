@@ -1,6 +1,11 @@
 package com.zungen.mp.modules.iot.model.vo;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 import lombok.Data;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * mqtt自定义消息
@@ -33,4 +38,12 @@ public class MqttMessage<T> {
      * 加密和压缩顺序为：先加密，后压缩
      */
     private T body;
+
+    public static MqttMessage<Map<String, Object>> getDefaultMessage(Map<String, Object> data) {
+        MqttMessage<Map<String, Object>> message = new MqttMessage<>();
+        message.setToken(IdUtil.fastSimpleUUID());
+        message.setTimestamp(DateUtil.now());
+        message.setBody(data);
+        return message;
+    }
 }

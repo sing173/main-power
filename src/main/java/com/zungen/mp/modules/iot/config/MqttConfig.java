@@ -2,6 +2,7 @@ package com.zungen.mp.modules.iot.config;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.zungen.mp.modules.iot.service.MqttGateway;
 import com.zungen.mp.modules.iot.service.impl.MqttSubscribeHandlerImpl;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,7 +99,11 @@ public class MqttConfig {
         //通过通道适配器ChannelAdapter接入mqtt数据源到通道：mqttInputChannel
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter(clientId+"_inbound", mqttClientFactory(),
-                        defaultTopic, "#");
+                        defaultTopic,
+                        MqttGateway.MQTT_TOPIC_SUB_REPORT,
+                        MqttGateway.MQTT_TOPIC_SUB_TOPOLOGY,
+                        MqttGateway.MQTT_TOPIC_SUB_TERMINAL,
+                        MqttGateway.MQTT_TOPIC_SUB_TERMINAL_NOTIFY);
         adapter.setCompletionTimeout(completionTimeout);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
