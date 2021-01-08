@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 台区报告-事件的基类
+ * @author luomingxing
+ */
 @Data
 public class MpEvent {
     /**

@@ -29,6 +29,16 @@ public class CommonPage<T> {
         return result;
     }
 
+    public static <T> CommonPage<T> restPage(int pageNum, int pageSize, Long total, int totalPage, List<T> records){
+        CommonPage<T> result = new CommonPage<>();
+        result.setPageNum(pageNum);
+        result.setPageSize(pageSize);
+        result.setTotal(total);
+        result.setTotalPage(totalPage);
+        result.setList(records);
+        return result;
+    }
+
     public Integer getPageNum() {
         return pageNum;
     }

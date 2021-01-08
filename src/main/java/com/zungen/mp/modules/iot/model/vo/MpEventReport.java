@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2020-12-31
  */
 @Data
-@ApiModel(value="MpEventReport对象", description="台区终端报告")
+@ApiModel(value="MpEventReport对象", description="mqtt返回的台区终端报告")
 public class MpEventReport implements Serializable {
 
     private static final long serialVersionUID=1L;

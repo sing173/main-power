@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -51,5 +52,18 @@ public class MpDeviceServiceImpl extends ServiceImpl<MpDeviceMapper, MpDevice> i
             dbDevice.setUpdateTime(mpDevice.getUpdateTime());
             return updateById(dbDevice);
         }
+    }
+
+    /**
+     * 根据台区终端id查询其所有设备
+     * @param terminalId
+     * @return
+     */
+    @Override
+    public List<MpDevice> findMpDevicesByTerminalId(Long terminalId) {
+        QueryWrapper<MpDevice> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(MpDevice::getTerminalId, terminalId);
+
+        return list(wrapper);
     }
 }

@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.zungen.mp.modules.iot.model.MpDeviceEvent">
         <id column="id" property="id" />
         <result column="terminal_id" property="terminalId" />
+        <result column="terminal_address" property="terminalAddress" />
         <result column="terminal_report_id" property="terminalReportId" />
         <result column="address" property="address" />
         <result column="type" property="type" />

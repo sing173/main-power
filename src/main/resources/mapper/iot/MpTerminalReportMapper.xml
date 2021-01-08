@@ -36,4 +36,10 @@
                                             #{eventMeter},
                                             #{createdTime})
     </insert>
+
+    <select id="selectLastReportByTerminalId" resultType="com.zungen.mp.modules.iot.model.MpTerminalReport">
+        select * from mp_terminal_report
+        where terminal_id = #{terminalId}
+        order by created_time desc limit 1
+    </select>
 </mapper>

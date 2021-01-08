@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class MqttMessage<T> {
     public static MqttMessage<Map<String, Object>> getDefaultMessage(Map<String, Object> data) {
         MqttMessage<Map<String, Object>> message = new MqttMessage<>();
         message.setToken(IdUtil.fastSimpleUUID());
-        message.setTimestamp(DateUtil.now());
+        message.setTimestamp(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
         message.setBody(data);
         return message;
     }

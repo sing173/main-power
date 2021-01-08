@@ -45,12 +45,21 @@ public class KmApplicationTests {
     }
 
     @Test
+    public void testPubTerminal() {
+        String topic = "server/ALL/zungen/get/request/terminalInfo";
+        MqttMessage message = new MqttMessage<>();
+        message.setToken(IdUtil.fastSimpleUUID());
+        message.setTimestamp(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
+        mqttGateway.sendToMqtt(JSONObject.toJSONString(message), topic);
+    }
+
+    @Test
     public void testPubTerminalInfo() {
         String topic = "device/20181226/topo/notify/report/terminalInfo";
 
         MqttMessage<MpTerminal> message = new MqttMessage<>();
         message.setToken(IdUtil.fastSimpleUUID());
-        message.setTimestamp(DateUtil.now());
+        message.setTimestamp(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
         MpTerminal mpTerminal = new MpTerminal();
         mpTerminal.setAddress("012345");
         mpTerminal.setDeviceId("20181226");
@@ -70,7 +79,7 @@ public class KmApplicationTests {
         String topic = "device/20181226/topo/action/response/topology";
         MqttMessage<MpTopology> message = new MqttMessage<>();
         message.setToken(IdUtil.fastSimpleUUID());
-        message.setTimestamp(DateUtil.now());
+        message.setTimestamp(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
         MpTopology mpTopology = new MpTopology();
         mpTopology.setAddress("012345");
         mpTopology.setRT_D("RT_D");
@@ -99,7 +108,7 @@ public class KmApplicationTests {
 
         MqttMessage<MpEventReport> message = new MqttMessage<>();
         message.setToken(IdUtil.fastSimpleUUID());
-        message.setTimestamp(DateUtil.now());
+        message.setTimestamp(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
         MpEventReport mpEventReport = new MpEventReport();
         mpEventReport.setAddress("0123450");
         mpEventReport.setEnergyLost(1);

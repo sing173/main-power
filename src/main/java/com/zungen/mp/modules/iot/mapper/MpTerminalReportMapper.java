@@ -2,6 +2,7 @@ package com.zungen.mp.modules.iot.mapper;
 
 import com.zungen.mp.modules.iot.model.MpTerminalReport;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MpTerminalReportMapper extends BaseMapper<MpTerminalReport> {
     int insertReport(MpTerminalReport mpTerminalReport);
+
+    MpTerminalReport selectLastReportByTerminalId(@Param("terminalId") Long terminalId);
 }

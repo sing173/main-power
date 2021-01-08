@@ -1,7 +1,9 @@
 package com.zungen.mp.modules.iot.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zungen.mp.modules.iot.enums.EventTypeEnum;
 import com.zungen.mp.modules.iot.mapper.MpDeviceEventMapper;
 import com.zungen.mp.modules.iot.model.MpDeviceEvent;
 import com.zungen.mp.modules.iot.model.vo.*;
@@ -53,25 +55,38 @@ public class MpDeviceEventServiceImpl extends ServiceImpl<MpDeviceEventMapper, M
             mpDeviceEvent.setCreatedTime(new Date());
             //设置台区id
             mpDeviceEvent.setTerminalId(terminalId);
+            mpDeviceEvent.setTerminalAddress(terminalAddress);
             //设置事件内容（json）
             mpDeviceEvent.setEventJson(JSONUtil.toJsonStr(mpEvent));
             //设置事件类型
             if (mpEvent instanceof MpEventPowerLost) {
-                mpDeviceEvent.setType(1);
+                mpDeviceEvent.setType(EventTypeEnum.PowerLost.getCode());
             } else if (mpEvent instanceof MpEventLoadBalance) {
-                mpDeviceEvent.setType(2);
+                mpDeviceEvent.setType(EventTypeEnum.LoadBalance.getCode());
             } else if (mpEvent instanceof MpEventLineLost) {
-                mpDeviceEvent.setType(3);
+                mpDeviceEvent.setType(EventTypeEnum.LineLost.getCode());
             } else if (mpEvent instanceof MpEventOverLoad) {
-                mpDeviceEvent.setType(4);
+                mpDeviceEvent.setType(EventTypeEnum.OverLoad.getCode());
             } else if (mpEvent instanceof MpEventQuality) {
-                mpDeviceEvent.setType(5);
+                mpDeviceEvent.setType(EventTypeEnum.Quality.getCode());
             } else if (mpEvent instanceof MpEventMeter) {
-                mpDeviceEvent.setType(6);
+                mpDeviceEvent.setType(EventTypeEnum.Meter.getCode());
             }
             return mpDeviceEvent;
         }).collect(Collectors.toList());
 
     }
 
+    /**
+     * 根据台区报告id查询所有设备当前的事件
+     * @param reportId
+     * @return
+     */
+    @Override
+    public List<MpDeviceEvent> findEventsByReportId(Long reportId) {
+        QueryWrapper<MpDeviceEvent> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(MpDeviceEvent::getTerminalReportId, reportId);
+
+        return list(wrapper);
+    }
 }

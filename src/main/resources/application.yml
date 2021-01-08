@@ -49,4 +49,4 @@ secure:
       - /admin/register
       - /admin/info
       - /admin/logout
-      - /mqtt/*
+      - /iot/**

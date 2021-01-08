@@ -16,7 +16,7 @@ public class SwaggerConfig extends BaseSwaggerConfig {
     @Override
     public SwaggerProperties swaggerProperties() {
         return SwaggerProperties.builder()
-                .apiBasePackage("com.zungen.aihall.modules")
+                .apiBasePackage("com.zungen.mp.modules")
                 .title("智能主站-演示")
                 .description("继电主站演示项目相关接口文档")
                 .contactName("zungen")

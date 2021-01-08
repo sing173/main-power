@@ -23,4 +23,11 @@ public interface MpDeviceEventService extends IService<MpDeviceEvent> {
             List<? extends MpEvent> mpEventList,
             Long terminalId, String terminalAddress
             );
+
+    /**
+     * 根据台区终端id查询所有设备事件
+     * @param terminalId
+     * @return
+     */
+    List<MpDeviceEvent> findEventsByReportId(Long terminalId);
 }

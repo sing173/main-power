@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MpTerminalReportService extends IService<MpTerminalReport> {
     boolean createTerminalReport(MpTerminalReport mpTerminalReport);
+
+    MpTerminalReport getLastReportByTerminalId(Long terminalId);
 }

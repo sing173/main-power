@@ -33,6 +33,9 @@ public class MpDeviceEvent implements Serializable {
     @ApiModelProperty(value = "台区ID")
     private Long terminalId;
 
+    @ApiModelProperty(value = "台区地址")
+    private String terminalAddress;
+
     @ApiModelProperty(value = "台区报告ID 对应每一次的台区分析报告")
     private Long terminalReportId;
 

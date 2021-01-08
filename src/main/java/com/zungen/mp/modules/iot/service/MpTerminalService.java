@@ -1,5 +1,6 @@
 package com.zungen.mp.modules.iot.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zungen.mp.modules.iot.model.MpTerminal;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,4 +16,6 @@ public interface MpTerminalService extends IService<MpTerminal> {
     boolean saveTerminal(MpTerminal mpTerminal);
 
     MpTerminal findByAddress(String terminalId);
+
+    Page<MpTerminal> list(String keyword, Integer pageSize, Integer pageNum);
 }

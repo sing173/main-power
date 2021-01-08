@@ -4,10 +4,12 @@ import com.zungen.mp.modules.iot.model.MpTerminalReport;
 import com.zungen.mp.modules.iot.mapper.MpTerminalReportMapper;
 import com.zungen.mp.modules.iot.service.MpTerminalReportService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -26,8 +28,16 @@ public class MpTerminalReportServiceImpl extends ServiceImpl<MpTerminalReportMap
     public boolean createTerminalReport(MpTerminalReport mpTerminalReport) {
         mpTerminalReport.setCreatedTime(new Date());
 
-//        return save(mpTerminalReport);
         return mapper.insertReport(mpTerminalReport) > 0;
     }
 
+    /**
+     * 找出台区终端最新的分析报告
+     * @param terminalId
+     * @return
+     */
+    @Override
+    public MpTerminalReport getLastReportByTerminalId(@Param("terminalId") Long terminalId) {
+        return mapper.selectLastReportByTerminalId(terminalId);
+    }
 }
