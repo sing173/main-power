@@ -1,4 +1,4 @@
-package com.shinetech.aihall;
+package com.zungen.mp;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MainPowerApplication.class)
-public class KmApplicationTests {
+public class mpApplicationTests {
     @Autowired
     MpTerminalReportService mpTerminalReportService;
 

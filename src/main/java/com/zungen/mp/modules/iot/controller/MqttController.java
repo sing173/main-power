@@ -68,6 +68,12 @@ public class MqttController {
         return CommonResult.success(null);
     }
 
+    public CommonResult pubAllTerminal() {
+
+
+        return CommonResult.failed();
+    }
+
     @ApiOperation(value = "查找台区终端列表")
     @RequestMapping(value = "/terminal/list", method = RequestMethod.POST)
     @ResponseBody
