@@ -4,9 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.zungen.mp.MainPowerApplication;
 import com.zungen.mp.modules.iot.model.MpDevice;
 import com.zungen.mp.modules.iot.model.MpTerminal;
 import com.zungen.mp.modules.iot.model.MpTerminalReport;
@@ -22,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MainPowerApplication.class)
@@ -114,11 +111,11 @@ public class mpApplicationTests {
         mpEventReport.setEnergyLost(1);
         mpEventReport.setEnergySale(2);
         mpEventReport.setEnergySupply(3);
-        mpEventReport.setLineLost(4);
+        mpEventReport.setLinelost(4);
 
         MpEventLineLost mpEventLineLost = new MpEventLineLost();
         mpEventLineLost.setAddress("0001");
-        mpEventLineLost.setLineLostTotal(10);
+        mpEventLineLost.setLinelostTotal(10);
         mpEventLineLost.setCause("none");
         mpEventReport.setEventLineLost(CollectionUtil.newArrayList(mpEventLineLost));
 

@@ -23,6 +23,6 @@ public class MpEventLineLost extends MpEvent{
     /**
      * 线损值(XX%)
      */
-    private double lineLostTotal;
+    private double linelostTotal;
 
 }

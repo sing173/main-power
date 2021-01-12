@@ -34,7 +34,7 @@ public class MpEventReport implements Serializable {
     private double energyLost;
 
     @ApiModelProperty(value = "台区线损值 XX%")
-    private double lineLost;
+    private double linelost;
 
     @ApiModelProperty(value = "停电事件")
     private List<MpEventPowerLost> eventPowerLost;

@@ -150,7 +150,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
                 mpTerminalReport.setEnergyLost(mpEventReport.getEnergyLost());
                 mpTerminalReport.setEnergySupply(mpEventReport.getEnergySupply());
                 mpTerminalReport.setEnergySale(mpEventReport.getEnergySale());
-                mpTerminalReport.setLineLost(mpEventReport.getLineLost());
+                mpTerminalReport.setLineLost(mpEventReport.getLinelost());
                 mpTerminalReport.setTerminalId(mpTerminal.getId());
                 mpTerminalReport.setTerminalAddress(mpTerminal.getAddress());
                 mpTerminalReport.setCreatedTime(new Date());
