@@ -5,21 +5,32 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.zungen.mp.common.api.CommonResult;
 import com.zungen.mp.modules.iot.model.MpDevice;
 import com.zungen.mp.modules.iot.model.MpTerminal;
 import com.zungen.mp.modules.iot.model.MpTerminalReport;
 import com.zungen.mp.modules.iot.model.vo.*;
+import com.zungen.mp.modules.iot.service.MpDeviceService;
 import com.zungen.mp.modules.iot.service.MpTerminalReportService;
 import com.zungen.mp.modules.iot.service.MqttGateway;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.TriggerContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MainPowerApplication.class)
@@ -29,6 +40,13 @@ public class mpApplicationTests {
 
     @Autowired
     MqttGateway mqttGateway;
+
+    @Autowired
+    MpDeviceService deviceService;
+
+    @Resource
+    private ThreadPoolTaskScheduler taskScheduler;
+    private ScheduledFuture<?> scheduledFuture;
 
     @Test
     public void testReportInsert() {
@@ -132,5 +150,34 @@ public class mpApplicationTests {
 
         message.setBody(mpEventReport);
         mqttGateway.sendToMqtt(JSONObject.toJSONString(message), topic);
+    }
+
+    @Test
+    public void testTaskScheduler() {
+        scheduledFuture = taskScheduler.schedule(new Runnable() {
+            @Override
+            public void run() {
+                if(deviceService.findMpDevicesByTerminalId(5).get(0).getStatus() == 1) {
+                    scheduledFuture.cancel(false);
+                }
+
+                System.out.println(Thread.currentThread().getName() + "|schedule controller" + "|" + new Date().toLocaleString());
+            }
+        }, new Trigger() {
+            @Override
+            public Date nextExecutionTime(TriggerContext triggerContext) {
+                return new CronTrigger("0/1 * * * * ?").nextExecutionTime(triggerContext);
+            }
+        });
+
+        do {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        } while (scheduledFuture == null || !scheduledFuture.isCancelled());
+
     }
 }

@@ -60,7 +60,7 @@ public class MpDeviceServiceImpl extends ServiceImpl<MpDeviceMapper, MpDevice> i
      * @return
      */
     @Override
-    public List<MpDevice> findMpDevicesByTerminalId(Long terminalId) {
+    public List<MpDevice> findMpDevicesByTerminalId(long terminalId) {
         QueryWrapper<MpDevice> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(MpDevice::getTerminalId, terminalId);
 

@@ -33,4 +33,4 @@ spring:
 logging:
   level:
     root: info
-    com.mp.zungen: debug
+    com.zungen.mp: debug

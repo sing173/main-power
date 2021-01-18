@@ -22,5 +22,5 @@ public interface MpDeviceService extends IService<MpDevice> {
      * @param terminalId
      * @return
      */
-    List<MpDevice> findMpDevicesByTerminalId(Long terminalId);
+    List<MpDevice> findMpDevicesByTerminalId(long terminalId);
 }

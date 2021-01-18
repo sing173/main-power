@@ -7,7 +7,8 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSON;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zungen.mp.common.api.CommonPage;
@@ -19,22 +20,24 @@ import com.zungen.mp.modules.iot.model.MpTerminal;
 import com.zungen.mp.modules.iot.model.MpTerminalReport;
 import com.zungen.mp.modules.iot.model.vo.*;
 import com.zungen.mp.modules.iot.service.*;
-import com.zungen.mp.modules.ums.model.UmsAdmin;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @Api(tags = "MqttController", description = "电力智能管理终端交互接口")
 @RequestMapping("/iot")
 public class MqttController {
+    private final Log logger = LogFactory.get();
+
     @Autowired
     private MqttGateway mqttGateway;
 
@@ -108,7 +111,8 @@ public class MqttController {
         return CommonResult.success(null);
     }
 
-    @ApiOperation(value = "查找台区终端列表")
+    @ApiOperation(value = "查找台区终端列表",
+        response = MpTerminalListView.class)
     @RequestMapping(value = "/terminal/list", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult listTerminal(@RequestParam(value = "keyword", required = false) String keyword,
@@ -145,7 +149,8 @@ public class MqttController {
         }
     }
 
-    @ApiOperation(value = "根据台区终端id获取拓扑数据")
+    @ApiOperation(value = "根据台区终端id获取拓扑数据",
+        response = MpDeviceView.class)
     @RequestMapping(value = "/terminal/topology", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult terminalTopology(@RequestParam(value = "terminalId") Long terminalId,

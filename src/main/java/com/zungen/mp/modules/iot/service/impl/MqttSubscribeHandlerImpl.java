@@ -3,6 +3,8 @@ package com.zungen.mp.modules.iot.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.zungen.mp.modules.iot.model.MpDevice;
@@ -26,6 +28,7 @@ import java.util.*;
  * @author luomingxing
  */
 public class MqttSubscribeHandlerImpl implements MessageHandler {
+    private final Log logger = LogFactory.get();
 
     @Autowired
     private MpTerminalReportService terminalReportService;
@@ -74,7 +77,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
      * @param payLoad
      */
     private void handleTerminalInfo(String payLoad) {
-        System.out.println("handleTerminalInfo mqtt:"+payLoad);
+        logger.debug("handleTerminalInfo mqtt:"+payLoad);
 
         MqttMessage<MpTerminal> terminalMqttMessage = JSONObject.parseObject(payLoad,
                 new TypeReference<MqttMessage<MpTerminal>>() {});
@@ -89,8 +92,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
             mqttGateway.sendToMqtt(JSONObject.toJSONString(MqttMessage.getDefaultMessage(data)),
                     StrUtil.format(MqttGateway.MQTT_TOPIC_PUB_TOPOLOGY, mpTerminal.getAddress()));
         }else {
-//            logger.error("没有找到对应的台区终端");
-            System.out.println("保存台区终端失败");
+            logger.error("没有找到对应的台区终端");
         }
     }
 
@@ -99,7 +101,8 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
      * @param payLoad
      */
     private void handleTopology(String payLoad) {
-        System.out.println("handleTopology mqtt:"+payLoad);
+        logger.debug("handleTopology mqtt:"+payLoad);
+
         MqttMessage<MpTopology> topologyMqttMessage = JSONObject.parseObject(payLoad,
                 new TypeReference<MqttMessage<MpTopology>>() {});
         MpTopology topology = topologyMqttMessage.getBody();
@@ -123,8 +126,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
                 }
 
             } else {
-//            logger.error("没有找到对应的台区终端");
-                System.out.println("没有找到对应的台区终端");
+                logger.error("没有找到对应的台区终端");
             }
         }
 
@@ -135,7 +137,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
      * @param payLoad
      */
     private void handleAnalysisReport(String payLoad) {
-        System.out.println("handleAnalysisReport mqtt:"+payLoad);
+        logger.debug("handleAnalysisReport mqtt:"+payLoad);
 
         MqttMessage<MpEventReport> eventReportMqttMessage = JSONObject.parseObject(payLoad,
                 new TypeReference<MqttMessage<MpEventReport>>() {});
@@ -197,8 +199,7 @@ public class MqttSubscribeHandlerImpl implements MessageHandler {
                 //2.再批量保存台区设备事件报告 TODO 设备id
                 deviceEventService.batchCreateDeviceEvent(deviceEventList, mpTerminalReport.getId());
             } else {
-//            logger.error("没有找到对应的台区终端");
-                System.out.println("没有找到对应的台区终端");
+                logger.error("没有找到对应的台区终端");
             }
         }
     }

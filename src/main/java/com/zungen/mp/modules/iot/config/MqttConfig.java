@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.zungen.mp.modules.iot.service.MqttGateway;
 import com.zungen.mp.modules.iot.service.impl.MqttSubscribeHandlerImpl;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,8 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 @IntegrationComponentScan
 public class MqttConfig {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Value("${spring.mqtt.username}")
     private String username;
 
